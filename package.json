@@ -1,6 +1,6 @@
 {
   "name": "@linkedmink/eip-4361-parser",
-  "version": "1.0.1-2",
+  "version": "1.0.1",
   "description": "Handle EIP-4361 messages to Sign in with Ethereum on both the client and server",
   "keywords": [
     "EIP-4361",
