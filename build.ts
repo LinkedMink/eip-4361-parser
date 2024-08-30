@@ -4,7 +4,7 @@ import fs from "node:fs/promises";
 const cjsBuildOptions: BuildOptions = {
   bundle: true,
   platform: "node",
-  entryPoints: ["src/index.ts"],
+  entryPoints: ["src/index.ts", "src/zod/index.ts"],
   format: "cjs",
   outdir: "./dist/cjs",
   external: ["ethers", "zod"],
@@ -23,6 +23,8 @@ if (cjsMetafile) {
   ]);
   console.log(analyzeResult);
 }
+
+// await fs.writeFile("dist/cjs/package.json", JSON.stringify({ type: "commonjs" }, undefined, 2));
 
 // const tsFiles = fs.glob(["src/**/*.ts", "src/grammar/eip4361.js"], {
 //   exclude: filename => filename.endsWith(".d.ts") || filename.endsWith("types.ts"),

@@ -1,7 +1,12 @@
 {
   "name": "@linkedmink/eip-4361-parser",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1-2",
+  "description": "Handle EIP-4361 messages to Sign in with Ethereum on both the client and server",
+  "keywords": [
+    "EIP-4361",
+    "Ethereum",
+    "Authentication"
+  ],
   "homepage": "https://github.com/LinkedMink/eip-4361-parser#readme",
   "bugs": {
     "url": "https://github.com/LinkedMink/eip-4361-parser/issues",
@@ -42,7 +47,7 @@
   },
   "scripts": {
     "prebuild": "node node_modules/apg-js/bin/apg.sh --lite -i src/grammar/eip4361.abnf -o src/grammar/eip4361.js",
-    "build": "tsc --project src/tsconfig.json && tsx build.ts",
+    "build": "tsc --project src/tsconfig.json && tsc --project src/tsconfig.cjs.json && tsx build.ts",
     "lint": "eslint {src,test}/**/*.ts *.js",
     "test": "jest --reporters default --watch",
     "test:ci": "jest --coverage --ci",
