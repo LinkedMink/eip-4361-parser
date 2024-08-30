@@ -2,6 +2,7 @@
   "extends": "../tsconfig.json",
   "include": ["../src/**/*.ts", "**/*.ts"],
   "compilerOptions": {
+    "lib": ["DOM"],
     "module": "CommonJS",
     "moduleResolution": "Node"
   }
