@@ -8,28 +8,10 @@ export class Eip4361ParseError extends Eip4361Error {
   }
 }
 
-export enum Eip4361VerifyErrorType {
-  /** `expirationTime` is present and in the past. */
-  EXPIRED_MESSAGE = "Expired message.",
-
-  /** `scheme` don't match the scheme provided for verification. */
-  SCHEME_MISMATCH = "Scheme does not match provided scheme for verification.",
-
-  /** `domain` don't match the domain provided for verification. */
-  DOMAIN_MISMATCH = "Domain does not match provided domain for verification.",
-
-  /** `nonce` don't match the nonce provided for verification. */
-  NONCE_MISMATCH = "Nonce does not match provided nonce for verification.",
-
-  /** `notBefore` is present and in the future. */
-  NOT_YET_VALID_MESSAGE = "Message is not valid yet.",
-
-  /** Signature doesn't match the address of the message. */
-  INVALID_SIGNATURE = "Signature does not match address of the message.",
-}
+export class Eip4361ValidationError extends Eip4361Error {}
 
 /** `expirationTime` is present and in the past. */
-export class Eip4361VerifyExpiredError extends Eip4361Error {
+export class Eip4361VerifyExpiredError extends Eip4361ValidationError {
   constructor(
     public readonly expirationTime: Date,
     public readonly currentDateTime: Date,
@@ -39,7 +21,7 @@ export class Eip4361VerifyExpiredError extends Eip4361Error {
 }
 
 /** `notBefore` is present and in the future. */
-export class Eip4361VerifyNotBeforeError extends Eip4361Error {
+export class Eip4361VerifyNotBeforeError extends Eip4361ValidationError {
   constructor(
     public readonly notBefore: Date,
     public readonly currentDateTime: Date,
@@ -48,7 +30,7 @@ export class Eip4361VerifyNotBeforeError extends Eip4361Error {
   }
 }
 
-export class Eip4361VerifySchemeError extends Eip4361Error {
+export class Eip4361VerifySchemeError extends Eip4361ValidationError {
   constructor(
     public readonly expected: string,
     public readonly received?: string,
@@ -57,7 +39,7 @@ export class Eip4361VerifySchemeError extends Eip4361Error {
   }
 }
 
-export class Eip4361VerifyDomainError extends Eip4361Error {
+export class Eip4361VerifyDomainError extends Eip4361ValidationError {
   constructor(
     public readonly expected: string,
     public readonly received: string,
@@ -66,7 +48,7 @@ export class Eip4361VerifyDomainError extends Eip4361Error {
   }
 }
 
-export class Eip4361VerifyNonceError extends Eip4361Error {
+export class Eip4361VerifyNonceError extends Eip4361ValidationError {
   constructor(
     public readonly expected: string,
     public readonly received: string,
@@ -76,7 +58,7 @@ export class Eip4361VerifyNonceError extends Eip4361Error {
 }
 
 /** Signature doesn't match the address of the message. */
-export class Eip4361VerifySignatureError extends Eip4361Error {
+export class Eip4361VerifySignatureError extends Eip4361ValidationError {
   constructor(
     public readonly address: string,
     public readonly signature: string,

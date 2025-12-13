@@ -1,56 +1,44 @@
-import type { Eip4361Message } from "./eip4361-types.js";
+import type { Eip4361Message, Eip4361VersionType } from "./eip4361-types.js";
 
-function toEip4361StringV1(message: Eip4361Message): string {
-  const headerPrefix = message.scheme ? `${message.scheme}://${message.domain}` : message.domain;
-  const header = `${headerPrefix} wants you to sign in with your Ethereum account:`;
-  const uriField = `URI: ${message.uri}`;
-  let prefix = [header, message.address].join("\n");
-  const versionField = `Version: ${message.version}`;
+const ToEip4361StringVersionMap: Record<Eip4361VersionType, (message: Eip4361Message) => string> = {
+  "1": function toEip4361StringV1(message: Eip4361Message): string {
+    const headerPrefix = message.scheme ? `${message.scheme}://${message.domain}` : message.domain;
+    const header = `${headerPrefix} wants you to sign in with your Ethereum account:`;
 
-  const chainField = `Chain ID: ` + message.chainId.toString() || "1";
+    const prefix = [header, message.address].join("\n");
 
-  const nonceField = `Nonce: ${message.nonce}`;
+    const uriField = `URI: ${message.uri}`;
+    const versionField = `Version: ${message.version}`;
+    const chainField = `Chain ID: ` + message.chainId.toString() || "1";
+    const nonceField = `Nonce: ${message.nonce}`;
+    const issuedAtField = `Issued At: ${message.issuedAt}`;
 
-  const suffixArray = [uriField, versionField, chainField, nonceField];
+    const suffixArray = [uriField, versionField, chainField, nonceField, issuedAtField];
 
-  message.issuedAt = message.issuedAt || new Date().toISOString();
+    if (message.expirationTime) {
+      suffixArray.push(`Expiration Time: ${message.expirationTime}`);
+    }
 
-  suffixArray.push(`Issued At: ${message.issuedAt}`);
+    if (message.notBefore) {
+      suffixArray.push(`Not Before: ${message.notBefore}`);
+    }
 
-  if (message.expirationTime) {
-    const expiryField = `Expiration Time: ${message.expirationTime}`;
+    if (message.requestId) {
+      suffixArray.push(`Request ID: ${message.requestId}`);
+    }
 
-    suffixArray.push(expiryField);
-  }
+    if (message.resources) {
+      suffixArray.push([`Resources:`, ...message.resources.map((x) => `- ${x}`)].join("\n"));
+    }
 
-  if (message.notBefore) {
-    suffixArray.push(`Not Before: ${message.notBefore}`);
-  }
+    const suffix = suffixArray.join("\n");
 
-  if (message.requestId) {
-    suffixArray.push(`Request ID: ${message.requestId}`);
-  }
-
-  if (message.resources) {
-    suffixArray.push([`Resources:`, ...message.resources.map(x => `- ${x}`)].join("\n"));
-  }
-
-  const suffix = suffixArray.join("\n");
-  prefix = [prefix, message.statement].join("\n\n");
-  if (message.statement) {
-    prefix += "\n";
-  }
-  return [prefix, suffix].join("\n");
-}
+    return message.statement
+      ? [prefix, message.statement, suffix].join("\n\n")
+      : [prefix, suffix].join("\n");
+  },
+};
 
 export function toEip4361String(message: Eip4361Message): string {
-  switch (message.version) {
-    case "1": {
-      return toEip4361StringV1(message);
-    }
-
-    default: {
-      return toEip4361StringV1(message);
-    }
-  }
+  return ToEip4361StringVersionMap[message.version](message);
 }

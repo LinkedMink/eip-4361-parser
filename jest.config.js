@@ -1,10 +1,23 @@
+// @ts-check
+
 /** @type {import("jest").Config} */
-const config = {
+export default {
   verbose: true,
+  randomize: true,
+  showSeed: true,
   moduleFileExtensions: ["js", "mjs", "cjs", "json", "ts", "mts", "cts"],
-  testMatch: ["**/test/**/(*.test|*.spec).ts"],
+  moduleNameMapper: {
+    "^(\\.{1,2}/.*)\\.js$": "$1",
+  },
+  testMatch: ["<rootDir>/test/**/*.test.ts"],
   collectCoverage: false,
-  collectCoverageFrom: ["src/**/!(index|*.types|*.enum).ts"],
+  collectCoverageFrom: ["<rootDir>/src/**/*.ts"],
+  coveragePathIgnorePatterns: [
+    "/node_modules/",
+    "<rootDir>/src/eip4361/constants\\.ts",
+    "<rootDir>/src/eip4361/errors\\.ts",
+    "<rootDir>/src/zod/zod-schema\\.ts",
+  ],
   // coverageThreshold: {
   //   global: {
   //     statements: 75,
@@ -15,14 +28,14 @@ const config = {
   // },
   testEnvironment: "node",
   reporters: [["github-actions", { silent: false }], "summary"],
+  transformIgnorePatterns: ["/node_modules/(?!(apg-lite)/)"],
   transform: {
-    "^.+\\.ts$": [
-      "ts-jest",
-      {
-        tsconfig: "test/tsconfig.json",
-      },
-    ],
+    // "^.+\\.(t|j)s$": [
+    //   "ts-jest",
+    //   {
+    //     tsconfig: "test/tsconfig.json",
+    //   },
+    // ],
+    "^.+\\.(t|j)sx?$": "@swc/jest",
   },
 };
-
-export default config;

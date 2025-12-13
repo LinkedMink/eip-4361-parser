@@ -1,7 +1,7 @@
 import type { Provider } from "ethers";
-import type { Eip4361Version } from "./constants.js";
+import type { Eip4361Versions } from "./constants.js";
 
-export type Eip4361Versions = typeof Eip4361Version;
+export type Eip4361VersionType = (typeof Eip4361Versions)[number];
 
 /**
  * @see https://eips.ethereum.org/EIPS/eip-4361
@@ -33,7 +33,7 @@ export interface Eip4361Message {
   /**
    * Current version of the message.
    */
-  version: Eip4361Versions;
+  version: Eip4361VersionType;
   /**
    * EIP-155 Chain ID to which the session is bound, and the network where
    * Contract Accounts must be resolved.
@@ -92,20 +92,3 @@ export interface VerifyEip4361Opts {
   /** ethers provider to be used for EIP-1271 validation */
   provider?: Provider;
 }
-
-// TODO Lib had "| null" pretty sure it's undefined, check
-// export interface Eip4361Message {
-//   scheme: string | null;
-//   domain: string;
-//   address: string;
-//   statement: string | null;
-//   uri: string;
-//   version: string;
-//   chainId: number;
-//   nonce: string;
-//   issuedAt: string;
-//   expirationTime: string | null;
-//   notBefore: string | null;
-//   requestId: string | null;
-//   resources: string[] | null;
-// }

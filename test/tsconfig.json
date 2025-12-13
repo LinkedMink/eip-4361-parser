@@ -1,9 +1,11 @@
 {
   "extends": "../tsconfig.json",
-  "include": ["../src/**/*.ts", "**/*.ts"],
+  "include": ["../src/**/*.ts", "**/*.ts", "../node_modules/apg-lite/lib/parser.js"],
   "compilerOptions": {
+    "outDir": "../dist",
     "lib": ["DOM"],
     "module": "CommonJS",
-    "moduleResolution": "Node"
+    "moduleResolution": "Node",
+    "allowJs": true
   }
 }

@@ -1,20 +1,20 @@
-import type { z, ZodArray, ZodEffects, ZodLiteral, ZodNumber, ZodOptional, ZodString } from "zod";
-import type { Eip4361Version } from "../eip4361/constants.js";
+import type { z } from "zod";
+import type { Eip4361VersionType } from "../eip4361/eip4361-types.js";
 
 export type ZodSchemaEip4361Message = ReturnType<
   typeof z.object<{
-    scheme: ZodOptional<ZodString>;
-    domain: ZodString;
-    address: ZodEffects<ZodString, string, string>;
-    statement: ZodOptional<ZodString>;
-    uri: ZodString;
-    version: ZodLiteral<typeof Eip4361Version>;
-    chainId: ZodNumber;
-    nonce: ZodString;
-    issuedAt: ZodString;
-    expirationTime: ZodOptional<ZodString>;
-    notBefore: ZodOptional<ZodString>;
-    requestId: ZodOptional<ZodString>;
-    resources: ZodOptional<ZodArray<ZodString>>;
+    scheme: z.ZodOptional<z.ZodString>;
+    domain: z.ZodString;
+    address: z.ZodString;
+    statement: z.ZodOptional<z.ZodString>;
+    uri: z.ZodURL;
+    version: z.ZodLiteral<Eip4361VersionType>;
+    chainId: z.ZodNumber;
+    nonce: z.ZodString;
+    issuedAt: z.ZodISODateTime;
+    expirationTime: z.ZodOptional<z.ZodISODateTime>;
+    notBefore: z.ZodOptional<z.ZodISODateTime>;
+    requestId: z.ZodOptional<z.ZodString>;
+    resources: z.ZodOptional<z.ZodArray<z.ZodString>>;
   }>
 >;
