@@ -1,4 +1,4 @@
-import { Contract, ethers } from "ethers";
+import * as Ethers from "ethers";
 import type { Eip4361Message, VerifyEip4361Opts, VerifyEip4361Params } from "./eip4361-types.js";
 import {
   Eip4361VerifyDomainError,
@@ -15,7 +15,7 @@ function getVerifiedAddress(message: Eip4361Message, signature: string) {
 
   /** Recover address from signature */
   try {
-    return ethers.verifyMessage(eip4361Message, signature);
+    return Ethers.ethers.verifyMessage(eip4361Message, signature);
   } catch (e) {
     console.error(e);
   }
@@ -73,8 +73,8 @@ export async function verifyEip4361Message(
 
   /** Match signature with message's address */
   if (address !== message.address) {
-    const walletContract = new Contract(message.address, EIP1271_ABI, opts?.provider);
-    const hashedMessage = ethers.hashMessage(toEip4361String(message));
+    const walletContract = new Ethers.Contract(message.address, EIP1271_ABI, opts?.provider);
+    const hashedMessage = Ethers.ethers.hashMessage(toEip4361String(message));
     const res = (await walletContract.isValidSignature(hashedMessage, signature)) as string;
     if (res !== EIP1271_MAGIC_VALUE) {
       throw new Eip4361VerifySignatureError(message.address, signature);

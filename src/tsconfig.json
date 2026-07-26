@@ -2,7 +2,7 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "lib": ["DOM"],
-    "outDir": "../dist/esm",
+    "outDir": "../dist",
     "declaration": true,
     "declarationMap": true,
     "allowJs": true
