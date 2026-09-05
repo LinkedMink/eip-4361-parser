@@ -1,6 +1,6 @@
 {
   "name": "@linkedmink/eip-4361-parser",
-  "version": "2.0.0-0",
+  "version": "2.0.0-1",
   "description": "Handle EIP-4361 messages to Sign in with Ethereum on both the client and server",
   "keywords": [
     "EIP-4361",
@@ -93,8 +93,9 @@
     "zod": "^4.0.10"
   },
   "allowScripts": {
-    "esbuild@0.28.1": true,
-    "unrs-resolver@1.12.2": true,
-    "@swc/core@1.15.46": true
+    "@parcel/watcher@2.6.0": true,
+    "@swc/core@1.16.2": true,
+    "esbuild@0.28.2": true,
+    "unrs-resolver@1.12.2": true
   }
 }

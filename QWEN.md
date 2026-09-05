@@ -68,7 +68,8 @@ The ABNF grammar file (`src/grammar/eip4361.abnf`) is compiled by `apg-js` durin
 
 ## Key Notes for AI Assistance
 
-- **Do NOT update `@types/node`** — its major version must match the Node.js runtime version to avoid type errors for standard library APIs.
+- **Do NOT update `@types/node`** — its major version must match the Node.js target (24.x, per `@tsconfig/node24`) to avoid type errors for standard library APIs.
+- **Do NOT update `typescript` to 7.x** — `typescript-eslint` 8.x rejects TS 7 at runtime (`npm run lint` fails) and its peer range caps at `<6.1.0`; TS ≥7.1 support is tracked upstream. `jest-mock-extended` peers also cap at `^6.0.0`. Keep `typescript` on 6.x until the toolchain supports 7.
 - The `prebuild` step runs `apg-js` to compile `.abnf` → `.js`. If the grammar file changes, ensure the prebuild step is re-run.
 - Zod-related source files (`src/zod/zod-schema.ts`) are excluded from coverage thresholds.
 - **Testing ESM modules with external deps:** Use `jest.mock("module-name")` with namespace imports (`import * as Mod from "module"`) in the source file to allow Jest to intercept calls. Access auto-mocked properties via `jest.mocked(Mod)`, and use `mock<T>()` from `jest-mock-extended` to construct auto-mocked instances of interfaces (e.g., `mock<SomeInterface>()` returns an instance with all methods as `jest.Mock`).
